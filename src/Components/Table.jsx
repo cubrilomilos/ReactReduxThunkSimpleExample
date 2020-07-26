@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { reduxThunkUpdateAllAction } from '../Redux/actions';
+import { getInitialDataToReduxFromAPI, reduxThunkUpdateAllAction } from '../Redux/actions';
 import { connect } from 'react-redux';
 import DataRow from './RowData'
 
@@ -11,6 +11,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getInitialTableData: () => {
+            dispatch(getInitialDataToReduxFromAPI())
+        },
         onUpdateRow: (row) => {
             dispatch(reduxThunkUpdateAllAction(row))
         }
@@ -18,6 +21,11 @@ const mapDispatchToProps = dispatch => {
 }
 
 class Table extends Component {
+
+    componentDidMount() {
+        this.props.getInitialTableData();
+    }
+
     render() {
         return (
             <div>
