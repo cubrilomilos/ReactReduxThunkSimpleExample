@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getInitialDataToReduxFromAPI, reduxThunkUpdateAllAction } from '../Redux/actions';
+import { addNewRowAction, deleteRowAction, getInitialDataToReduxFromAPI, reduxThunkUpdateAllAction } from '../Redux/actions';
 import { connect } from 'react-redux';
 import DataRow from './RowData'
 
@@ -16,19 +16,34 @@ const mapDispatchToProps = dispatch => {
         },
         onUpdateRow: (row) => {
             dispatch(reduxThunkUpdateAllAction(row))
+        },
+        onAddNewRow: () => {
+            dispatch(addNewRowAction())
+        },
+        onDeleteRow: (rowId) => {
+            dispatch(deleteRowAction(rowId))
         }
     }
 }
 
 class Table extends Component {
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.props.getInitialTableData();
+    }
+
+    onAddNewRow = () => {
+        this.props.onAddNewRow();
+    }
+
+    onDeleteRow = (rowId) => {
+        this.props.onDeleteRow(rowId);
     }
 
     render() {
         return (
             <div>
+                <button onClick={this.props.onAddNewRow}>Add new row</button>
                 <div style={{ display: 'flex' }}>
                     <div>
                         <span>Description</span>
@@ -46,6 +61,7 @@ class Table extends Component {
                             key={row.id}
                             rowdata={row}
                             onUpdateRow={this.props.onUpdateRow}
+                            onDeleteRow={this.props.onDeleteRow}
                         />
                     ))
                 }

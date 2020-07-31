@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-export default class RowData extends Component {
+//Pure component will automatically get rid of rerenders if prop values didn't change
+//Change to Component and watch highlightning in react tools when row is added or updated
+//Also look at the profiler graph
+export default class RowData extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,6 +67,7 @@ export default class RowData extends Component {
                         Save
                         </button>
                 </form>
+                <button onClick={() => this.props.onDeleteRow(this.props.rowdata.id)} title="Delete">Delete</button>
                 <div>
                     <span>Row id is: {this.props.rowdata.id}</span>
                     <span> Is edited: {this.props.rowdata.isEdited ? "true" : "false"}</span>

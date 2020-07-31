@@ -1,4 +1,5 @@
-import { GET_INITIAL_DATA, UPDATE_ROW, UPDATE_SIDEBAR, UPDATE_FOOTER } from './constants';
+import { v4 as uuidv4 } from 'uuid';
+import { GET_INITIAL_DATA, ADD_NEW_ROW, UPDATE_ROW, DELETE_ROW, UPDATE_SIDEBAR, UPDATE_FOOTER } from './constants';
 import axiosMock from '../Data/MockAxios';
 import startingData from '../Data/MockData';
 
@@ -18,10 +19,24 @@ const getInitialDataToReduxFromAPI = () => {
     }
 }
 
+const addNewRowAction = () => {
+    return {
+        type: ADD_NEW_ROW,
+        payload: { id: uuidv4(), description: '', minutes: 0, isEdited: false }
+    }
+}
+
 const updateRowAction = (updatedRowData) => {
     return {
         type: UPDATE_ROW,
         payload: updatedRowData
+    }
+}
+
+const deleteRowAction = (rowid) => {
+    return {
+        type: DELETE_ROW,
+        payload: rowid
     }
 }
 
@@ -58,7 +73,9 @@ const reduxThunkUpdateAllAction = (row) => {
 
 export {
     getInitialDataToReduxFromAPI,
+    addNewRowAction,
     updateRowAction,
+    deleteRowAction,
     updateSidebarAction,
     updateFooterAction,
     reduxThunkUpdateAllAction
